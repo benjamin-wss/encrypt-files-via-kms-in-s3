@@ -1,5 +1,5 @@
 {
-  "name": "plain-text-file-coverter",
+  "name": "encrypt-files-via-kms-in-s3",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -12,9 +12,9 @@
   "dependencies": {
     "@aws-crypto/client-node": "~3.1.1",
     "@aws-crypto/material-management": "~3.1.0",
-    "@aws-sdk/client-s3": "^3.267.0",
+    "@aws-sdk/client-s3": "~3.267.0",
     "@benjamin-wss/cornerstone-js-utilities": "~1.2.0",
-    "fs-extra": "^11.1.0"
+    "fs-extra": "~11.1.0"
   },
   "devDependencies": {
     "@types/fs-extra": "~11.0.1",
