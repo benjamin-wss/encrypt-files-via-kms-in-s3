@@ -51,8 +51,9 @@ async function downloadFromS3Bucket({
     });
     const response = await s3Client.send(command);
 
-    await stream.promises.finished(
-      response.Body.pipe(fs.createWriteStream(downloadedFilePath)),
+    await stream.promises.pipeline(
+      response.Body,
+      fs.createWriteStream(downloadedFilePath),
     );
 
     console.log('Downloaded', {
