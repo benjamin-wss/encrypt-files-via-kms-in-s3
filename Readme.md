@@ -15,7 +15,7 @@ The node version that this is supposed to work with can be seen in the file `./.
 Run the following command:
 
 ```shell
-$> nvm use
+$ > nvm use
 ```
 
 It should pick up the Node version and use it, if not, install the required version.
@@ -25,14 +25,14 @@ It should pick up the Node version and use it, if not, install the required vers
 Run the following command in powershell:
 
 ```shell
-PS> .\nvmrc-windows.ps1
+PS > .\nvmrc-windows.ps1
 ```
 
 This will select the proper Node version and if you don't have it, install it for you.
 
 ### Installing Dependencies
 
-In case it is not abumdantly obvios, this project uses `yarn` as the package manager.
+In case it is not abundantly obvious, this project uses `yarn` as the package manager.
 
 If you are using the Node version specified in `./.nvmrc` and cannot use `yarn`, run the following command:
 
