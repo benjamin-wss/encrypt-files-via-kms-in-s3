@@ -156,6 +156,8 @@ async function main() {
     kmsSecretAccessKey,
     targetEncryptKmsArn,
   );
+
+  // TODO: Put in code to upload files to S3
 }
 
 main()
