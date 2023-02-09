@@ -1,0 +1,16 @@
+# compiled output
+/dist
+/node_modules
+
+# env-cmd
+!.env-cmdrc.template.js
+.env-cmdrc
+.env-cmdrc.js
+.env-cmdrc.json
+
+# env
+.env
+.env*
+
+# ES Lint
+.eslintcache
