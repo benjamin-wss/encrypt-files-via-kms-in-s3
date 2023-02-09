@@ -14,3 +14,7 @@
 
 # ES Lint
 .eslintcache
+
+# Dynamic Dirs
+download
+output
