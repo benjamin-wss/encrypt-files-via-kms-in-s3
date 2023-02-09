@@ -18,6 +18,7 @@
   },
   "devDependencies": {
     "@types/fs-extra": "~11.0.1",
+    "@types/node": "^18.13.0",
     "env-cmd": "~10.1.0",
     "eslint": "^7.32.0 || ^8.2.0",
     "eslint-config-airbnb-base": "^15.0.0",
