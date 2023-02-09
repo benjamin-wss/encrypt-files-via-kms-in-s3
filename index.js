@@ -1,7 +1,7 @@
-const path = require("path");
-const fs = require("fs-extra");
-const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
-const stream = require("stream");
+const path = require('path');
+const fs = require('fs-extra');
+const { S3Client, GetObjectCommand } = require('@aws-sdk/client-s3');
+const stream = require('stream');
 const {
   buildClient,
   CommitmentPolicy,
@@ -9,14 +9,14 @@ const {
   KMS,
   KmsKeyringNode,
   AlgorithmSuiteIdentifier,
-} = require("@aws-crypto/client-node");
+} = require('@aws-crypto/client-node');
 
-const config = require("./config");
+const config = require('./config');
 
-console.log("Configs Used", config);
+console.log('Configs Used', config);
 
-const downloadPath = path.join(__dirname, "download");
-const outputPath = path.join(__dirname, "output");
+const downloadPath = path.join(__dirname, 'download');
+const outputPath = path.join(__dirname, 'output');
 
 async function downloadFromS3Bucket({
   fileNames: filePaths = [],
@@ -38,7 +38,7 @@ async function downloadFromS3Bucket({
     const filePath = filePaths[i];
     const fileName = path.basename(filePath);
     const downloadedFilePath = path.join(downloadPath, fileName);
-    console.log("Downloading", {
+    console.log('Downloading', {
       bucketName,
       bucketPath: filePath,
       fileName,
@@ -52,10 +52,10 @@ async function downloadFromS3Bucket({
     const response = await s3Client.send(command);
 
     await stream.promises.finished(
-      response.Body.pipe(fs.createWriteStream(downloadedFilePath))
+      response.Body.pipe(fs.createWriteStream(downloadedFilePath)),
     );
 
-    console.log("Downloaded", {
+    console.log('Downloaded', {
       bucketName,
       bucketPath: filePath,
       fileName,
@@ -68,7 +68,7 @@ async function encryptFiles(
   region,
   accessKeyId,
   secretAccessKey,
-  targetEncryptKmsArn
+  targetEncryptKmsArn,
 ) {
   const fileNames = await fs.promises.readdir(downloadPath);
   const filePaths = fileNames.map((x) => path.join(downloadPath, x));
@@ -85,7 +85,7 @@ async function encryptFiles(
   });
 
   const { encryptStream } = buildClient(
-    CommitmentPolicy.REQUIRE_ENCRYPT_REQUIRE_DECRYPT
+    CommitmentPolicy.REQUIRE_ENCRYPT_REQUIRE_DECRYPT,
   );
 
   for (let i = 0; i < filePaths.length; i += 1) {
@@ -93,7 +93,7 @@ async function encryptFiles(
     const fileName = path.basename(filePath);
     const outputFilePath = path.join(outputPath, fileName);
 
-    console.log("Encrypting", { filePath, fileName, outputFilePath });
+    console.log('Encrypting', { filePath, fileName, outputFilePath });
 
     await stream.promises.pipeline(
       fs.createReadStream(filePath),
@@ -101,32 +101,32 @@ async function encryptFiles(
         suiteId:
           AlgorithmSuiteIdentifier.ALG_AES256_GCM_IV12_TAG16_HKDF_SHA512_COMMIT_KEY,
         encryptionContext: {
-          state: "encrypting file",
+          state: 'encrypting file',
           purpose: `encrypting ${fileName} for consumption.`,
-          origin: "Migration Script",
+          origin: 'Migration Script',
         },
       }),
-      fs.createWriteStream(outputFilePath)
+      fs.createWriteStream(outputFilePath),
     );
 
-    console.log("Encrypted", { filePath, fileName, outputFilePath });
+    console.log('Encrypted', { filePath, fileName, outputFilePath });
   }
 
-  console.log("Files encrypted and ready for upload.");
+  console.log('Files encrypted and ready for upload.');
 }
 
 async function main() {
-  console.log("Starting conversion process.");
+  console.log('Starting conversion process.');
 
-  console.log("Ensuring empty directory for file downloads.");
+  console.log('Ensuring empty directory for file downloads.');
   await fs.ensureDir(downloadPath);
   await fs.emptyDir(downloadPath);
-  console.log("Ensured empty directory for file downloads.");
+  console.log('Ensured empty directory for file downloads.');
 
-  console.log("Ensuring empty directory for file output.");
+  console.log('Ensuring empty directory for file output.');
   await fs.ensureDir(outputPath);
   await fs.emptyDir(outputPath);
-  console.log("Ensured empty directory for file output.");
+  console.log('Ensured empty directory for file output.');
 
   const {
     aws: {
@@ -154,10 +154,10 @@ async function main() {
     kmsRegion,
     kmsAccessKeyId,
     kmsSecretAccessKey,
-    targetEncryptKmsArn
+    targetEncryptKmsArn,
   );
 }
 
 main()
-  .then(() => console.log("done"))
-  .catch((error) => console.error("Error encountered", error));
+  .then(() => console.log('done'))
+  .catch((error) => console.error('Error encountered', error));
